@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: "./"
+      dockerfile: Dockerfile
+    container_name: 'demo-app'
+    hostname: demo-app
+    ports:
+      - '8080:8080'
+    networks:
+      - backend
+
+  prometheus:
+    image: prom/prometheus
+    container_name: 'prometheus'
+    hostname: prometheus
+    ports:
+      - '9090:9090'
+    networks:
+      - backend
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus-data
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    depends_on:
+      - app
+
+  grafana:
+    image: grafana/grafana
+    container_name: 'grafana'
+    hostname: grafana
+    networks:
+      - backend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - grafana/config.monitoring
+    depends_on:
+      - prometheus
+
+networks:
+  backend:
+
+volumes:
+  prometheus_data: {}
