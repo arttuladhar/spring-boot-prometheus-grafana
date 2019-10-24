@@ -23,9 +23,6 @@ public class CountryService {
   }
 
   public Country getCountryByCode(String countryCode) {
-
-    // Counters (Increment / Decrement)
-    meterRegistry.counter("service.getCountryByCode").increment();
     return countryRepository.getCountryByCode(countryCode);
   }
 }

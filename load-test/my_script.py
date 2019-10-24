@@ -7,7 +7,7 @@ def performGetRequest(url):
     result = requests.get(url)
     if result.status_code == 200:
       print('.', end='', flush=True)
-      time.sleep(1)
+      time.sleep(5)
     else:
       print ("Request Failed")
       exit(1)
@@ -21,3 +21,5 @@ print ("Performing Load Testing")
 while (True):
   performGetRequest("http://localhost:8080/")
   performGetRequest("http://localhost:8080/countries")
+  performGetRequest("http://localhost:8080/country/US")
+

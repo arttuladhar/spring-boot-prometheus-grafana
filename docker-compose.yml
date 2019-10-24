@@ -43,6 +43,17 @@ services:
     depends_on:
       - prometheus
 
+  load-test:
+    build:
+      context: "./load-test"
+      dockerfile: Dockerfile
+    container_name: 'load-test'
+    hostname: load-test
+    networks:
+      - backend
+    depends_on:
+      - grafana
+
 networks:
   backend:
 
